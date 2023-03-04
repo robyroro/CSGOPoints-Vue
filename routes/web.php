@@ -20,4 +20,4 @@ Route::get('{any}', function () {
 
 Route::get('{any}', function () {
     return view('app');
-})->where('any','.*');
+})->where('ny','.*');
