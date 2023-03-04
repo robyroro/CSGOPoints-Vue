@@ -4,11 +4,11 @@
       <form @submit.prevent="searchitem" class="col-span-2">
           <div class="grid grid-cols-1 lg:grid-cols-3 space-x-2">
             <div class="col-span-2">
-              <input class="border border-gray-300 dark:border-gray-700 bg-white dark:bg-c-black h-10 px-2 pr-2 rounded w-full text-sm focus:outline-none" v-model="searchTerm" @keyup="searchitem" placeholder="Search Items">
+              <input v-model="searchTerm" @keyup="searchitem" class="border border-gray-300 dark:border-gray-700 bg-white dark:bg-c-black h-10 px-2 pr-2 rounded w-full text-sm focus:outline-none" placeholder="Search Items">
             </div>
             <div class="flex justify-between">
         
-            <select v-model="sortDirection" @change="sortOffers" class="border border-gray-300 dark:border-gray-700 bg-white dark:bg-c-black text-sm rounded focus:outline-none block w-full h-10 p-2.5 dark:focus:outline-none">
+            <select v-model="sortOption" @change="setSortOption($event.target.value)" class="border border-gray-300 dark:border-gray-700 bg-white dark:bg-c-black text-sm rounded focus:outline-none block w-full h-10 p-2.5 dark:focus:outline-none">
               <option value="desc" selected>Highest Price</option>
               <option value="asc">Lowest Price</option>
             </select>
@@ -47,35 +47,138 @@
   </div>
     </div>
 
-    <div class="pagination mt-3 space-x-2">
-        <button class="bg-white dark:bg-c-black rounded px-2 py-1 focus:outline-none" :disabled="currentPage === 1" @click="prevPage">Prev</button>
-        <button v-for="page in totalPages" :key="page"
-                :class="{ 'bg-blue-500 text-white rounded px-2 focus:outline-none' : page === currentPage }"
-                @click="setPage(page)">{{ page }}</button>
-        <button class="bg-white dark:bg-c-black rounded px-2 py-1 focus:outline-none" :disabled="currentPage === totalPages" @click="nextPage">Next</button>
+      <div class="example-six mt-3 space-x-2">
+      <vue-awesome-paginate
+      :total-items="totalItems"
+      :items-per-page="this.pageSize"
+      :max-pages-shown="5"
+      v-model="currentPage"
+      :on-click="onClickHandler">
+
+      <template #prev-button>
+        <span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="white"
+            width="12"
+            height="12"
+            viewBox="0 0 24 24"
+          >
+            <path d="M8.122 24l-4.122-4 8-8-8-8 4.122-4 11.878 12z" />
+          </svg>
+        </span>
+      </template>
+
+      <template #next-button>
+        <span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="white"
+            width="12"
+            height="12"
+            viewBox="0 0 24 24"
+          >
+            <path d="M8.122 24l-4.122-4 8-8-8-8 4.122-4 11.878 12z" />
+          </svg>
+        </span>
+      </template>
+      </vue-awesome-paginate>
+      </div>
     </div>
 
-  </div>
-
   </template>
-  
-  
+
 <script>
+import axios from 'axios';
+import { ref, computed, watch } from 'vue';
+
 export default {
-  data() {
+  setup() {
+    const currentPage = ref(1);
+    const pageSize = 36;
+    const items = ref([]);
+    const totalPages = ref(10);
+    const searchTerm = ref('');
+    const sortOption = ref('');
+    const loading = ref('true');
+
+    axios.get('/api/data/items')
+      .then(res => {
+        items.value = res.data;
+        totalPages.value = Math.ceil(items.value.length / pageSize);
+        loading.value = false;
+      })
+      .catch(error => {
+        console.log(error);
+      });
+
+    const filteredItems = computed(() => {
+      let filtered = items.value.filter(item => item.name.toLowerCase().includes(searchTerm.value.toLowerCase()));
+
+      if (sortOption.value === 'asc') {
+        filtered = filtered.sort((a, b) => a.price - b.price);
+      } else if (sortOption.value === 'desc') {
+        filtered = filtered.sort((a, b) => b.price - a.price);
+      }
+
+      return filtered;
+    });
+
+    const paginatedItems = computed(() => {
+      const startIndex = (currentPage.value - 1) * pageSize;
+      const endIndex = startIndex + pageSize;
+      return filteredItems.value.slice(startIndex, endIndex);
+    });
+
+    const onClickHandler = page => {
+      currentPage.value = page;
+    };
+
+    watch(filteredItems, () => {
+      totalPages.value = Math.ceil(filteredItems.value.length / pageSize);
+    });
+
+    const totalItems = computed(() => {
+      return filteredItems.value.length;
+    });
+
+    const filteredTotalItems = computed(() => {
+      return filteredItems.value.length;
+    });
+
+    const setSortOption = option => {
+      sortOption.value = option;
+    };
+
+    const filteredByPrice = computed(() => {
+      let filtered = filteredItems.value;
+
+      if (sortOption.value === 'asc') {
+        filtered = filtered.sort((a, b) => a.price - b.price);
+      } else if (sortOption.value === 'desc') {
+        filtered = filtered.sort((a, b) => b.price - a.price);
+      }
+
+      return filtered;
+    });
+
     return {
-      items: [],
-      searchTerm: '',
-      sortDirection: 'desc',
-      loading: true,
-      currentPage: 1,
-      pageSize: 108 // number of items per page
-    }
+      currentPage,
+      totalPages,
+      pageSize,
+      items,
+      onClickHandler,
+      totalItems,
+      searchTerm,
+      paginatedItems,
+      filteredTotalItems,
+      setSortOption,
+      filteredByPrice,
+      sortOption,
+      loading
+    };
   },
-  created() {
-    this.loadItems();
-  },
-  methods: {
+  methods:{
     buyitem(item_id,item_name,item_price) {
       this.$axios.post('/api/data/order/item', {
         item_id:item_id,
@@ -99,64 +202,60 @@ export default {
         console.log(error);
       })
     },
-    nextPage() {
-      if (this.currentPage < this.totalPages) {
-        this.currentPage++;
-        this.loadItems();
-      }
-    },
-    prevPage() {
-      if (this.currentPage > 1) {
-        this.currentPage--;
-        this.loadItems();
-      }
-    },
-    setPage(page) {
-      if (page >= 1 && page <= this.totalPages) {
-        this.currentPage = page;
-        this.loadItems();
-      }
-    },
-    loadItems() {
-      this.loading = true;
-      this.$axios.get('/api/data/items', {
-        params: {
-          page: this.currentPage,
-          size: this.pageSize
-        }
-      })
-      .then(response => {
-        this.items = response.data;
-        this.loading = false;
-      })
-      .catch(error => {
-        console.log(error);
-      })
-    }
-  },
-  computed: {
-    filteredItems() {
-      let items = this.items;
-      if (this.searchTerm) {
-        items = items.filter(item => {
-          return item.name.toLowerCase().includes(this.searchTerm.toLowerCase())
-        });
-      }
-      if (this.sortDirection === 'asc') {
-        items.sort((a, b) => a.price - b.price);
-      } else {
-        items.sort((a, b) => b.price - a.price);
-      }
-      return items;
-    },
-    paginatedItems() {
-      const start = (this.currentPage - 1) * this.pageSize;
-      const end = start + this.pageSize;
-      return this.filteredItems.slice(start, end);
-    },
-    totalPages() {
-      return Math.ceil(this.filteredItems.length / this.pageSize);
-    }
   }
+};
+</script>
+
+<style>
+.example-six .pagination-container {
+  column-gap: 10px;
+  display: flex;
+  align-items: center;
+  overflow-y:auto;
 }
-  </script>
+.example-six .paginate-buttons {
+  height: 35px;
+  width: 35px;
+  cursor: pointer;
+  border-radius: 4px;
+  background-color: transparent;
+  border: none;
+  color: black;
+  outline: none;
+}
+
+.example-six .back-button,
+.example-six .next-button {
+  background-color: black;
+  color: white;
+  border-radius: 8px;
+  height: 45px;
+  width: 45px;
+  padding-left: 15px;
+  outline: none;
+}
+.example-six .active-page {
+  background-color: #e5e5e5;
+}
+.example-six .active-page:hover {
+  background-color: #e5e5e5;
+}
+
+.example-six .back-button svg {
+  transform: rotate(180deg) translateY(-2px);
+  
+}
+.example-six .next-button svg {
+  transform: translateY(2px);
+}
+
+.example-six .back-button:hover,
+.example-six .next-button:hover {
+  background-color: rgb(45, 45, 45);
+}
+
+.example-six .back-button:active,
+.example-six .next-button:active {
+  background-color: rgb(85, 85, 85);
+}
+</style>

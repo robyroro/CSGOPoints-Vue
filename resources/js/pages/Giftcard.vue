@@ -85,14 +85,13 @@
       </template>
     </vue-awesome-paginate>
   </div>
+
   
 </template>
 
 
 
 <script>
-
-
 import axios from 'axios';
 import { ref, computed, watch } from 'vue';
 
