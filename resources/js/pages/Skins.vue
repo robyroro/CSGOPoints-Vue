@@ -7,7 +7,7 @@
               <input v-model="searchTerm" @keyup="searchitem" class="border border-gray-300 dark:border-gray-700 bg-white dark:bg-c-black h-10 px-2 pr-2 rounded w-full text-sm focus:outline-none" placeholder="Search Items">
             </div>
             <div class="flex justify-between">
-              <button @click="openOfferwall()" class="bg-gray-400 px-3 py-2 rounde">Open modal</button>
+              <button @click="open()" class="dark:bg-gray-800 px-3 py-2 rounde">Open modal</button>
 
             <select v-model="sortOption" @change="setSortOption($event.target.value)" class="border border-gray-300 dark:border-gray-700 bg-white dark:bg-c-black text-sm rounded focus:outline-none block w-full h-10 p-2.5 dark:focus:outline-none">
               <option value="desc" selected>Highest Price</option>
@@ -87,7 +87,7 @@
       </div>
     </div>
 
-    <div x-data="{showModal: false}">
+    <div x-data="{showModal: true}">
     <div v-show="showModal" class="fixed inset-0 z-50 mx-auto lg:pl-20 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
         <div class="flex items-end justify-center min-h-screen px-4 text-center md:items-center sm:block sm:p-0">
             <div x-cloak @click="close()" v-show="showModal" 
@@ -97,8 +97,8 @@
                 x-transition:leave="transition ease-in duration-200 transform"
                 x-transition:leave-start="opacity-100" 
                 x-transition:leave-end="opacity-0"
-                class="fixed inset-0 transition-opacity bg-opacity-25" aria-hidden="true"
-            ></div>
+                class="fixed inset-0 transition-opacity bg-opacity-25" aria-hidden="true">
+            </div>
 
             <div x-cloak v-show="showModal" x-transition
                 x-transition:enter="transition ease-out duration-300 transform"
@@ -107,7 +107,7 @@
                 x-transition:leave="transition ease-in duration-200 transform"
                 x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100" 
                 x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                class="inline-block w-full lg:w-4/6 px-2 p-1 my-mt-44 md:mt-36 lg:mt-32 overflow-hidden text-left transition-all transform bg-white dark:bg-c-d-blue rounded">
+                class="inline-block w-full lg:w-2/6 px-2 p-1 my-mt-44 sm:mt-36 lg:mt-64 overflow-hidden text-left transition-all transform bg-white dark:bg-c-d-blue rounded">
 
                 <div class="flex items-center justify-between space-x-4">
                    <div class="flex items-center ml-2">
@@ -119,10 +119,35 @@
                       </svg>
                     </button>
                 </div>
-                <div class="mt-2 dark:bg-red-500 p-3">
+                <div class="mt-2 dark:bg-gray-900 p-3">
+                  
+                  <img src="https://res.cloudinary.com/emil-dev/image/upload/v1655922274/330x192_f6q29q.png" class="w-28 mx-auto"/>
 
-                </div>
+                  <div class="w-full">
+        <div class="flex items-center justify-between mb-2">
+          <div class="text-sm font-medium text-gray-400">{{ steps[currentStep - 1] }}</div>
+          <div class="text-sm font-medium text-gray-400">{{ steps.length }}</div>
+        </div>
+          <div class="relative pt-1">
+            <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-gray-200">
+              <div
+                v-for="(step, index) in steps"
+                :key="index"
+                :class="{
+                  'bg-green-500': index < currentStep,
+                  'bg-gray-200': index >= currentStep,
+                }"
+                :style="{ width: `${100 / steps.length}%` }"
+                class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center"
+              >
+                <span class="font-medium">{{ index + 1 }}</span>
+              </div>
             </div>
+          </div>
+        </div>
+
+       </div>
+      </div>
         </div>
     </div>
    </div>
@@ -143,6 +168,9 @@ export default {
     const sortOption = ref('');
     const loading = ref('true');
     const showModal = ref('true');
+
+    const steps = ref(['Step 1', 'Step 2', 'Step 3']);
+    const currentStep = ref(1); 
 
     axios.get('/api/data/items')
       .then(res => {
@@ -218,10 +246,19 @@ export default {
       filteredByPrice,
       sortOption,
       showModal,
+
+      steps,
+      currentStep,
+
       loading
     };
   },
   methods:{
+    nextStep() {
+      if (this.currentStep < this.steps.length) {
+        this.currentStep += 1;
+      }
+    },
     buyitem(item_id,item_name,item_price) {
       this.$axios.post('/api/data/order/item', {
         item_id:item_id,

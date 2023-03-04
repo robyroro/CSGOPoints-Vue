@@ -106,7 +106,7 @@
                 x-transition:leave="transition ease-in duration-200 transform"
                 x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100" 
                 x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                class="inline-block w-full lg:w-4/6 px-2 p-1 my-mt-44 md:mt-36 lg:mt-32 overflow-hidden text-left transition-all transform bg-white dark:bg-c-d-blue rounded">
+                class="inline-block w-full lg:w-4/6 px-2 p-1 my-mt-44 sm:mt-36 lg:mt-32 overflow-hidden text-left transition-all transform bg-white dark:bg-c-d-blue rounded">
 
                 <div class="flex items-center justify-between space-x-4">
                    <div class="flex items-center ml-2">
