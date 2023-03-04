@@ -37,6 +37,8 @@ Route::group(['prefix' => 'data','middleware' => 'auth:sanctum'], function() {
   Route::get('walls', [DataController::class, 'getwalls']);
   Route::get('items',[DataController::class,'items']);
   Route::post('order/item',[DataController::class,'order']);
+  Route::post('item/track',[DataController::class,'trackorder']);
+
 });
 
 //Chat Routes

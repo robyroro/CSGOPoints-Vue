@@ -86,6 +86,12 @@ class DataController extends Controller
     $data = json_decode(file_get_contents("https://api.waxpeer.com/v1/buy-one-p2p?api=e1207f36af786b1c4f489b0944080f40559619ecdd4b9a44c5e0b216e7812f15&partner=".$partner.'&token='.$token.'&item_id='.$item_id.'&price='.$price),true);
     
     return response()->json($data);
+  }
 
+  public function trackorder(Request $req)
+  {
+    $item_id = $req->get('item_id');
+    $data = json_decode(file_get_contents("https://api.waxpeer.com/v1/check-many-steam?api=e1207f36af786b1c4f489b0944080f40559619ecdd4b9a44c5e0b216e7812f15&=item_id=".$item_id),true);
+    return response()->json($data);
   }
 }

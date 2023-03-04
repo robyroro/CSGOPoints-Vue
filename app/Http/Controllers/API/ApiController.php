@@ -46,15 +46,12 @@ class ApiController extends Controller
     $item_id = $req->get('item_id');
     $price = $req->get('price');
     
-    
     $trade = Auth::user()->trade_url;
-    //dd($trade);
     
     $partner = explode('&',explode("partner=",$trade)[1])[0];
     $token = explode("token=",explode('&',explode("partner=",$trade)[1])[1])[1];
 
     $data = json_decode(file_get_contents("https://api.waxpeer.com/v1/buy-one-p2p?api=e1207f36af786b1c4f489b0944080f40559619ecdd4b9a44c5e0b216e7812f15&partner=".$partner.'&token='.$token.'&item_id='.$item_id.'&price='.$price),true);
-    
     return response()->json($data);
   }
 }
