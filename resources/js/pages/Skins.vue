@@ -7,7 +7,7 @@
               <input v-model="searchTerm" @keyup="searchitem" class="border border-gray-300 dark:border-gray-700 bg-white dark:bg-c-black h-10 px-2 pr-2 rounded w-full text-sm focus:outline-none" placeholder="Search Items">
             </div>
             <div class="flex justify-between">
-              <button @click="open()" class="dark:bg-gray-800 px-3 py-2 rounde">Open modal</button>
+              <button @click="showModal = true" class="dark:bg-gray-800 px-3 py-2 rounde">Open modal</button>
 
             <select v-model="sortOption" @change="setSortOption($event.target.value)" class="border border-gray-300 dark:border-gray-700 bg-white dark:bg-c-black text-sm rounded focus:outline-none block w-full h-10 p-2.5 dark:focus:outline-none">
               <option value="desc" selected>Highest Price</option>
@@ -41,7 +41,7 @@
      <span class="text-sm font-semibold">{{item.name}}</span>
      <div class="flex items-center justify-between mt-auto">
        <span class="text-sm mr-3">{{item.price}}</span>
-       <button @click="buyitem(item.item_id, item.name, item.price)" class="bg-green-500 dark:bg-green-700 text-sm rounded px-2 mt-2">Order</button>
+       <button @click="buyitem(item.item_id, item.name, item.price, item_img)" class="bg-green-500 dark:bg-green-700 text-sm rounded px-2 mt-2">Order</button>
      </div>
    </div>
   
@@ -87,17 +87,17 @@
       </div>
     </div>
 
-    <div x-data="{showModal: true}">
+    <div x-data="{showModal: false}">
     <div v-show="showModal" class="fixed inset-0 z-50 mx-auto lg:pl-20 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
         <div class="flex items-end justify-center min-h-screen px-4 text-center md:items-center sm:block sm:p-0">
-            <div x-cloak @click="close()" v-show="showModal" 
+            <div x-cloak v-show="showModal" 
                 x-transition:enter="transition ease-out duration-300 transform"
                 x-transition:enter-start="opacity-0" 
                 x-transition:enter-end="opacity-100"
                 x-transition:leave="transition ease-in duration-200 transform"
                 x-transition:leave-start="opacity-100" 
                 x-transition:leave-end="opacity-0"
-                class="fixed inset-0 transition-opacity bg-opacity-25" aria-hidden="true">
+                class="fixed inset-0 bg-gray-200 transition-opacity bg-opacity-25" aria-hidden="true">
             </div>
 
             <div x-cloak v-show="showModal" x-transition
@@ -113,13 +113,13 @@
                    <div class="flex items-center ml-2">
                     <h1 class="flex font-medium text-gray-700 dark:text-white">rere</h1>
                    </div>
-                    <button class="text-gray-600 focus:outline-none hover:text-gray-700">
+                    <button @click="showModal = false" class="text-gray-600 focus:outline-none hover:text-gray-700">
                       <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                       </svg>
                     </button>
                 </div>
-                <div class="mt-2 dark:bg-gray-900 p-3">
+                <div class="mt-2 bg-gray-200 dark:bg-c-black p-3">
                   
                   <img src="https://res.cloudinary.com/emil-dev/image/upload/v1655922274/330x192_f6q29q.png" class="w-28 mx-auto"/>
 
@@ -135,11 +135,9 @@
                 :key="index"
                 :class="{
                   'bg-green-500': index < currentStep,
-                  'bg-gray-200': index >= currentStep,
-                }"
+                  'bg-gray-200': index >= currentStep,}"
                 :style="{ width: `${100 / steps.length}%` }"
-                class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center"
-              >
+                class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center">
                 <span class="font-medium">{{ index + 1 }}</span>
               </div>
             </div>
@@ -148,7 +146,7 @@
 
        </div>
       </div>
-        </div>
+     </div>
     </div>
    </div>
 
@@ -167,11 +165,12 @@ export default {
     const searchTerm = ref('');
     const sortOption = ref('');
     const loading = ref('true');
-    const showModal = ref('true');
-
+    const showModal = ref(false);
     const steps = ref(['Step 1', 'Step 2', 'Step 3']);
     const currentStep = ref(1); 
+    const item_iamge = ref('');
 
+    const trkdt = ref({});
     axios.get('/api/data/items')
       .then(res => {
         items.value = res.data;
@@ -246,10 +245,10 @@ export default {
       filteredByPrice,
       sortOption,
       showModal,
-
+      item_iamge,
       steps,
       currentStep,
-
+      trkdt,
       loading
     };
   },
@@ -259,7 +258,7 @@ export default {
         this.currentStep += 1;
       }
     },
-    buyitem(item_id,item_name,item_price) {
+    buyitem(item_id,item_name,item_price,item_img) {
       this.$axios.post('/api/data/order/item', {
         item_id:item_id,
         price:item_price
@@ -267,7 +266,7 @@ export default {
       .then(response => {
         if(response.data.success === true)
         {
-          this.tracktrade(item_id);
+          this.tracktrade(item_id,item_img);
           this.$toast.success(`Item has been successfully Purchased. Check your Steam Trade Offers.`,{
           position: "bottom-right",
           duration: false
@@ -283,13 +282,16 @@ export default {
         console.log(error);
       })
     },
-    tracktrade(item_id)
+    tracktrade(item_id,item_img)
     {
       axios.post('/api/data/item/track',{
         item_id:item_id
       })
       .then(res => {
-        data = res.data;
+        trkdt.value = res.data;
+        //console.log(res.data);
+        showModal.value = true;
+        item_iamge.value = item_img;
       })
       .catch(error => {
         console.log(error);

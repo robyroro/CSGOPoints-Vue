@@ -83,7 +83,7 @@
       Today Stats
   </div>
   <div class="block w-full overflow-x-aut bg-white dark:bg-c-d-blue rounded-b">  
-    <apexchart type="bar" height="328"  :options="chartOptions" :series="series"></apexchart>          
+    <apexchart height="350px" type="bar" :options="options" :series="series"></apexchart>
   </div>
 </div>
 
@@ -191,28 +191,31 @@ export default {
         return {
             logs: [],
             orders: [],
-            values: {},
+            data: [],
+            dates: [],
             td: null,
             td_o: null,
             ov_pts: null,
             ov_offers: null,
             date:'',
             subDates: [],
+            labels:[],
+            values:[],
 
             series: [{
-            name: 'TEAM A',
-            type: 'column',
+            name: 'Earnings',
+            type: 'bar',
             data: [
 
               ]
           }],
-          chartOptions: {
+          options: {
             chart: {
               type: 'line',
               stacked: false,
               toolbar: {
               show: false,
-  },
+            },
             },
             stroke: {
               width: [0, 2, 5],
@@ -238,8 +241,9 @@ export default {
               size: 0
             },
             xaxis: {
-              type: 'category',
-            },
+              type: 'value',
+              categories:[]
+          },
             yaxis: {
               title: {
                 text: 'Points',
@@ -257,23 +261,28 @@ export default {
         this.date = moment().format('YYYY-MM-DD')
         for (let i = 1; i <= 6; i++) {
       this.subDates.push(moment().subtract(i, 'days').format('YYYY-MM-DD'))  
-
-      if(this.values && this.values[2] && this.values[2]['2023-01-16']){
-   console.log(this.values[2]['2023-01-16'])
-}
     }
-    this.chartOptions.labels = [...this.subDates.reverse(),this.date];
+   // this.options.labels = [...this.subDates.reverse(),this.date];
+    
+
         this.$axios.get('/sanctum/csrf-cookie').then(response => {
                 this.$axios.get('/api/data/dashboard')
                 .then(response => {
-                    this.values = response.data.values
+                    this.data = response.data.usearn
                     this.td = response.data.td
                     this.td_o = response.data.td_offers
                     this.ov_pts = response.data.ov_pts
                     this.ov_offers = response.data.ov_offers
                     this.logs = response.data.logs
                     this.orders = response.data.orders  
-                    console.log(response) 
+
+
+                    this.labels = this.data.map(earning => earning.date)//['Mon','Tue','Wed','Thu','Fri','Sat','Sun']
+                    this.options.xaxis.categories.push(...this.labels)
+
+                    this.values = this.data.map(earning => earning.total_earnings)//[150,10,100,13,200,40,120]
+                    this.series[0].data.push(...this.values)
+   
                 })
                 .catch(function(error) {
                     console.log(error);

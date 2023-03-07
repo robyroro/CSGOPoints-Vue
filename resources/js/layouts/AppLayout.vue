@@ -145,7 +145,7 @@
               />
             </svg>
           </span>
-          <span :class="{'lg:hidden': !isSidebarOpen}"> Logout </span>
+          <a :class="{'lg:hidden': !isSidebarOpen}" v-on:click="logout"> Logout </a>
         </button>
       </div>
     </aside>
@@ -166,7 +166,7 @@
 
 
   <div class="w-screen inset-y-0 z-10 flex overflow-hidden transition-all transform  rounded lg:z-auto lg:static lg:shadow-none" :class="{'-translate-y-full lg:translate-x-0 lg:w-0': !open}">
-  <div class="hidden bg-white dark:bg-c-d-blue px-2 mr-1 text-sm text-gray-700 dark:text-white rounded-r-md md:flex items-center">
+  <div class="hidden bg-white dark:bg-c-d-blue px-2 mr-1 text-sm text-gray-700 dark:text-white md:flex items-center">
   <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
   <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
   </svg>
@@ -177,7 +177,7 @@
     <recentbar :logs="logs" v-on:roomChanged="setRoom($event)"/>
   </div>
 
-  <div class="flex items-center ml-2 bg-white dark:bg-c-d-blue w-max px-2 text-sm text-gray-700 darK:text-white ml-auto rounded-l-md md:flex items-center">
+  <div class="flex items-center ml-2 bg-white dark:bg-c-d-blue w-max px-2 text-sm text-gray-700 darK:text-white ml-auto md:flex items-center">
     <select class="relative z-10 block rounded bg-gray-200 p-1 dark:bg-c-d-blue border-gray-300 dark:border-gray-700 focus:outline-none">
      <option v-for="room in logsRooms" :key="room.id" class="block px-4 py-2 text-sm capitalize text-gray-700 dark:text-white hover:bg-blue-500 hover:text-white">
       {{ room.name }}
@@ -416,16 +416,25 @@ data() {
                const newlog = e.logs;
               
               if(newlog.points > 0){
-                const newPoints = parseFloat(this.points) + parseFloat(newlog.points);
                 const sumpoints = parseInt(this.sumpoints) + parseFloat(newlog.points);
-                this.updatePoints(newPoints);
                 this.updateall(sumpoints);
-               }else if (newlog.points < 0) {
+
+               if(newlog.userid === this.user.id){
+                const newPoints = parseFloat(this.points) + parseFloat(newlog.points);
+                this.updatePoints(newPoints);
+               } 
+              }
+
+              if(newlog.points < 0){
+                const sumpoints = parseInt(this.sumpoints) - parseFloat(newlog.points);
+                this.updateall(sumpoints);
+                
+               if(newlog.userid === this.user.id){
                 const newPoints = parseFloat(this.points) - parseFloat(newlog.points);
-                const sumpoints = parseFloat(this.sumpoints) - parseFloat(newlog.points);
                 this.updatePoints(newPoints);
-                this.updateall(sumpoints);
-               }
+               } 
+              }
+              
                 vm.getrecentfeeds();  
               });
           }

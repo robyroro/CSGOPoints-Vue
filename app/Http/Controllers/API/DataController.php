@@ -28,10 +28,21 @@ class DataController extends Controller
       $overall_offers = Logs::where('userid', Auth::id())->get()->count();  
       $values = [];
     
+      $startDate = Carbon::now()->subDays(7)->startOfDay();
+      $endDate = Carbon::now()->endOfDay();
+
+
+$earnings = Logs::where('userid', Auth::user()->id)
+->whereDate('created_at', '>=', now()->subDays(7))
+->select(DB::raw('DATE(created_at) as date'), DB::raw('SUM(points) as total_earnings'))
+->groupBy('date')
+->orderBy('date', 'asc')
+->get();
+
       $userstats = UserStats::where('user_id',Auth::user()->id)->where('date', '>' , Carbon::now()->subDays(7))->get();
       foreach($userstats as $stat)
       {
-        $values[$stat['user_id']][$stat['date']] = $stat['earned'];
+       // $values['data' => $stat['date']][ 'earned' => $stat['earned']];
       }
 
       return response()->json([
@@ -42,6 +53,7 @@ class DataController extends Controller
         'ov_pts' => $overall_points,
         'ov_offers' => $overall_offers,
         'values' => $values,
+        'usearn' => $earnings
      ]);
     }
 
@@ -83,15 +95,21 @@ class DataController extends Controller
     $partner = explode('&',explode("partner=",$trade)[1])[0];
     $token = explode("token=",explode('&',explode("partner=",$trade)[1])[1])[1];
 
-    $data = json_decode(file_get_contents("https://api.waxpeer.com/v1/buy-one-p2p?api=e1207f36af786b1c4f489b0944080f40559619ecdd4b9a44c5e0b216e7812f15&partner=".$partner.'&token='.$token.'&item_id='.$item_id.'&price='.$price),true);
+    $data = json_decode(file_get_contents("https://api.waxpeer.com/v1/buy-one-p2p?api=e1207f36af786b1c4f489b0944080f40559619ecdd4b9a44c5e0b216e7812f15&partner=".$partner.'&token='.$token.'&item_id='.$item_id.'&price='.$price.'&project_id='.$item_id),true);
     
+    if($data['success'] === false)
+    {
+      $item = Waxpeer::where('item_id',$item_id)->first();
+      $item->delete();
+    }
+     
     return response()->json($data);
   }
 
   public function trackorder(Request $req)
   {
     $item_id = $req->get('item_id');
-    $data = json_decode(file_get_contents("https://api.waxpeer.com/v1/check-many-steam?api=e1207f36af786b1c4f489b0944080f40559619ecdd4b9a44c5e0b216e7812f15&=item_id=".$item_id),true);
+    $data = json_decode(file_get_contents("https://api.waxpeer.com/v1/check-many-project-id?api=e1207f36af786b1c4f489b0944080f40559619ecdd4b9a44c5e0b216e7812f15&id=".$item_id),true);
     return response()->json($data);
   }
 }

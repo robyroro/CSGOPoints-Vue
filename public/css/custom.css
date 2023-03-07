@@ -23,8 +23,13 @@
   .bg-gray-200 {
     --tw-bg-opacity: 1;
     background-color: rgba(229,231,235,var(--tw-bg-opacity));
+    background-color:#1539ae;
   }
   
+  .bg-blue {
+    background-color:#1539ae;
+  }
+
   .dark .dark\:bg-active {
     background-color: #212139; 
   }
