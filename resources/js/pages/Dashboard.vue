@@ -277,7 +277,8 @@ export default {
                     this.orders = response.data.orders  
 
 
-                    this.labels = this.data.map(earning => earning.date)//['Mon','Tue','Wed','Thu','Fri','Sat','Sun']
+                    this.labels = [...this.subDates.reverse(),this.date]
+                                 //this.data.map(earning => earning.date)//['Mon','Tue','Wed','Thu','Fri','Sat','Sun']
                     this.options.xaxis.categories.push(...this.labels)
 
                     this.values = this.data.map(earning => earning.total_earnings)//[150,10,100,13,200,40,120]
