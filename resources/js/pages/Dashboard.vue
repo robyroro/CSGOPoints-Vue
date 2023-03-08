@@ -201,14 +201,15 @@ export default {
             subDates: [],
             labels:[],
             values:[],
-
             series: [{
-            name: 'Earnings',
-            type: 'bar',
-            data: [
-
-              ]
-          }],
+              name: 'Earnings',
+              type: 'bar',
+              data: []
+              }, {
+              name: 'Click',
+              type: 'area',
+              data: []
+            }],
           options: {
             chart: {
               type: 'line',
@@ -217,9 +218,13 @@ export default {
               show: false,
             },
             },
+            colors: ['#00E396', '#0090FF'],
             stroke: {
               width: [0, 2, 5],
               curve: 'smooth'
+            },
+            dataLabels: {
+              enabled: false 
             },
             plotOptions: {
               bar: {
@@ -253,10 +258,10 @@ export default {
             legend: {
               position: 'top',
               horizontalAlign: 'right'
-  },           
-  },
- }
-},
+      },           
+      },
+    }
+    },
     created() {
         this.date = moment().format('YYYY-MM-DD')
         for (let i = 1; i <= 6; i++) {
@@ -266,30 +271,29 @@ export default {
     
 
         this.$axios.get('/sanctum/csrf-cookie').then(response => {
-                this.$axios.get('/api/data/dashboard')
-                .then(response => {
-                    this.data = response.data.usearn
-                    this.td = response.data.td
-                    this.td_o = response.data.td_offers
-                    this.ov_pts = response.data.ov_pts
-                    this.ov_offers = response.data.ov_offers
-                    this.logs = response.data.logs
-                    this.orders = response.data.orders  
+          this.$axios.get('/api/data/dashboard')
+          .then(response => {
+            this.data = response.data.usearn
+            this.td = response.data.td
+            this.td_o = response.data.td_offers
+            this.ov_pts = response.data.ov_pts
+            this.ov_offers = response.data.ov_offers
+            this.logs = response.data.logs
+            this.orders = response.data.orders  
+            console.log(this.data);
 
+            this.labels = this.data.map(earning => earning.date) //[...this.subDates.reverse(),this.date]
+            this.options.xaxis.categories.push(...this.labels)
 
-                    this.labels = [...this.subDates.reverse(),this.date]
-                                 //this.data.map(earning => earning.date)//['Mon','Tue','Wed','Thu','Fri','Sat','Sun']
-                    this.options.xaxis.categories.push(...this.labels)
-
-                    this.values = this.data.map(earning => earning.total_earnings)//[150,10,100,13,200,40,120]
-                    this.series[0].data.push(...this.values)
-   
-                })
-                .catch(function(error) {
-                    console.log(error);
-                });
-            });
-        },
+            this.values = this.data.map(earning => earning.total_earnings || 0)
+            this.series[0].data.push(...this.values)
+            this.series[1].data.push(...this.values)
+          })
+          .catch(function(error) {
+              console.log(error);
+          });
+      });
+  },
     methods: { 
       format_date(value){
          if (value) {
