@@ -7,6 +7,7 @@ use App\Http\Controllers\PostbackController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\DataController;
 use App\Http\Controllers\API\ApiController;
+use App\Http\Controllers\API\AdminController;
 use App\Http\Controllers\ChatController;
 
 
@@ -42,14 +43,12 @@ Route::group(['prefix' => 'data','middleware' => 'auth:sanctum'], function() {
 });
 
 //Chat Routes
-
 Route::get('/chat/rooms',[ChatController::class,'rooms'])->middleware('auth:sanctum');
 Route::get('/chat/room/{id}/messages',[ChatController::class,'messages'])->middleware('auth:sanctum');
 Route::post('/chat/room/{id}/message',[ChatController::class,'newmessage'])->middleware('auth:sanctum');
 
 
 //Postback Routes
-
 Route::get('/postback/wall/{hash}',[PostbackController::class,'getrequest']);
 Route::post('/postback/wall/{hash}',[PostbackController::class,'getrequest']);
 
@@ -58,8 +57,14 @@ Route::get('/logs/rooms',[DataController::class,'rooms'])->middleware('auth:sanc
 
 
 //Api Routes 
-Route::get('/import_items',[ApiController::class,'import']);
+Route::get('import_items',[ApiController::class,'import']);
 Route::get('order/item',[DataController::class,'order']);
+
+
+//Admin Routes 
+Route::group(['prefix' => 'admin','middleware' => 'auth:sanctum'], function() {
+  Route::get('data', [AdminController::class,'dashboard']);
+});
 
 
 Route::group(['prefix' => 'posts','middleware' => 'auth:sanctum'], function() {

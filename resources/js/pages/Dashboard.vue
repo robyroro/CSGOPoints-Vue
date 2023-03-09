@@ -228,7 +228,7 @@ export default {
             },
             plotOptions: {
               bar: {
-                columnWidth: '50%'
+                columnWidth: '25%'
               }
             },
             fill: {
