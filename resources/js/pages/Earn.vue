@@ -150,7 +150,6 @@
 </style>
 
 <script>
-import { throwStatement } from '@babel/types';
 import { ref } from 'vue';
 
 export default {
@@ -183,10 +182,28 @@ export default {
     }
   },
   mounted() {
+    const authorized = this.getQueryVariable('authorized');
+    if (authorized) {
+      this.$toast.error(`Only Administrators can access to the AdminPanel.`,{
+          position: "bottom-right",
+          duration: 5000
+        });
+    }
+
     this.getwalls();
   },
    methods:{
-    
+    getQueryVariable(variable) {
+      const query = window.location.search.substring(1);
+      const vars = query.split('&');
+      for (let i = 0; i < vars.length; i++) {
+        const pair = vars[i].split('=');
+        if (decodeURIComponent(pair[0]) === variable) {
+          return decodeURIComponent(pair[1]);
+        }
+      }
+      return null;
+    },
     async getwalls() {
       try {
         const response = await axios.get('/api/data/walls');

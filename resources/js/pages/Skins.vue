@@ -168,7 +168,7 @@ export default {
     const showModal = ref(false);
     const steps = ref(['Step 1', 'Step 2', 'Step 3']);
     const currentStep = ref(1); 
-    const item_iamge = ref('');
+    const item_image = ref('');
 
     const trkdt = ref({});
     axios.get('/api/data/items')
@@ -245,7 +245,7 @@ export default {
       filteredByPrice,
       sortOption,
       showModal,
-      item_iamge,
+      item_image,
       steps,
       currentStep,
       trkdt,
@@ -269,12 +269,12 @@ export default {
           this.tracktrade(item_id,item_img);
           this.$toast.success(`Item has been successfully Purchased. Check your Steam Trade Offers.`,{
           position: "bottom-right",
-          duration: false
+          duration: 5000
         });
         }else{
           this.$toast.error(`${response.data.msg}.`,{
           position: "bottom-right",
-          duration: false
+          duration: 5000
         });
         }
       })
@@ -291,7 +291,7 @@ export default {
         trkdt.value = res.data;
         //console.log(res.data);
         showModal.value = true;
-        item_iamge.value = item_img;
+        item_image.value = item_img;
       })
       .catch(error => {
         console.log(error);
@@ -300,57 +300,3 @@ export default {
   }
 };
 </script>
-
-<style>
-.example-six .pagination-container {
-  column-gap: 10px;
-  display: flex;
-  align-items: center;
-  overflow-y:auto;
-}
-.example-six .paginate-buttons {
-  height: 35px;
-  width: 35px;
-  cursor: pointer;
-  border-radius: 4px;
-  background-color: transparent;
-  border: none;
-  color: black;
-  outline: none;
-}
-
-.example-six .back-button,
-.example-six .next-button {
-  background-color: black;
-  color: white;
-  border-radius: 8px;
-  height: 45px;
-  width: 45px;
-  padding-left: 15px;
-  outline: none;
-}
-.example-six .active-page {
-  background-color: #e5e5e5;
-}
-.example-six .active-page:hover {
-  background-color: #e5e5e5;
-}
-
-.example-six .back-button svg {
-  transform: rotate(180deg) translateY(-2px);
-  
-}
-.example-six .next-button svg {
-  transform: translateY(2px);
-}
-
-.example-six .back-button:hover,
-.example-six .next-button:hover {
-  background-color: rgb(45, 45, 45);
-}
-
-.example-six .back-button:active,
-.example-six .next-button:active {
-  background-color: rgb(85, 85, 85);
-}
-</style>

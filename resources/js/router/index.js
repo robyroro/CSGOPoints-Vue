@@ -5,6 +5,7 @@ import AdminLayout from '../layouts/AdminLayout.vue';
 
 //Admin
 import dashboard from '../admin/dashboard';
+import users from '../admin/users';
 
 
 //User
@@ -15,6 +16,7 @@ import Dashboard from '../pages/Dashboard';
 import Earn from '../pages/Earn';
 import Skins from '../pages/Skins';
 import Giftcard from '../pages/Giftcard';
+import Inventory from '../pages/Inventory';
 import Posts from '../components/Posts';
 import EditPost from '../components/EditPost';
 import AddPost from '../components/AddPost';
@@ -64,6 +66,11 @@ export const routes = [
             component: Giftcard
           },
           {
+            name: 'inventory',
+            path: 'inventory',
+            component: Inventory
+          },
+          {
             name: 'chat',
             path: 'chat',
             component: container
@@ -93,6 +100,11 @@ export const routes = [
             name: 'dash',
             path: 'dashboard',
             component: dashboard
+          },
+          {
+            name: 'users',
+            path: 'users',
+            component: users
           },
         ],
       },

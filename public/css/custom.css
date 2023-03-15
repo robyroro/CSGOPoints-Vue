@@ -77,6 +77,59 @@
       background-color: #303238;
   }
 
+
+  .example-six .pagination-container {
+    column-gap: 10px;
+    display: flex;
+    align-items: center;
+    overflow-y:auto;
+  }
+  .example-six .paginate-buttons {
+    height: 35px;
+    width: 35px;
+    cursor: pointer;
+    border-radius: 4px;
+    background-color: transparent;
+    border: none;
+    color: black;
+    outline: none;
+  }
+  
+  .example-six .back-button,
+  .example-six .next-button {
+    background-color: black;
+    color: white;
+    border-radius: 4px;
+    height: 35px;
+    width: 35px;
+    padding-left: 10px;
+    outline: none;
+  }
+  .example-six .active-page {
+    background-color: #e5e5e5;
+  }
+  .example-six .active-page:hover {
+    background-color: #e5e5e5;
+  }
+  
+  .example-six .back-button svg {
+    transform: rotate(180deg) translateY(-2px);
+    
+  }
+  .example-six .next-button svg {
+    transform: translateY(2px);
+  }
+  
+  .example-six .back-button:hover,
+  .example-six .next-button:hover {
+    background-color: rgb(45, 45, 45);
+  }
+  
+  .example-six .back-button:active,
+  .example-six .next-button:active {
+    background-color: rgb(85, 85, 85);
+  }
+
   .bd-placeholder-img {
     font-size: 1.125rem;
     text-anchor: middle;

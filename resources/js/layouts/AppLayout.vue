@@ -48,7 +48,7 @@
       </div>
       <!-- Sidebar links -->
       <nav class="flex-1 overflow-hidden hover:overflow-y-auto">
-        <ul class="pt-2 space-y-4 overflow-hidden" v-if="isLoggedIn">
+        <ul class="pt-2 space-y-2 overflow-hidden" v-if="isLoggedIn">
           <li>
             <router-link v-if="user.is_admin === 1" to="/admin/dashboard" target="_blank" class="flex items-center p-2 space-x-2" :class="{'justify-center': !isSidebarOpen}" active-class="border-r-2 ml-2 border-gray-600 dark:bg-gray-700 bg-gray-200 dark:bg-active">
               <span>
@@ -60,7 +60,7 @@
             </router-link>
           </li>
           <li>
-            <router-link to="/dashboard" class="flex items-center p-2 space-x-2" :class="{'justify-center': !isSidebarOpen}" active-class="border-r-2 ml-2 border-gray-600 dark:bg-gray-700 bg-gray-200 dark:bg-active">
+            <router-link to="/dashboard" class="flex items-center p-2 space-x-2" :class="{'justify-center': !isSidebarOpen}" active-class="mx-2 dark:bg-green-400 bg-green-200 text-green-600 dark:text-green-700 rounded">
               <span>
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-700 dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
@@ -69,6 +69,28 @@
               <span :class="{ 'lg:hidden': !isSidebarOpen }">Dashboard</span>
             </router-link>
           </li>
+
+          <li>
+            <router-link to="/dashboard" class="flex items-center p-2 space-x-2" :class="{'justify-center': !isSidebarOpen}" active-class="border-r-2 ml-2 border-green-600 dark:border-green-700 dark:bg-green-400 bg-green-200 text-gray-700 dark:text-white rounded-l">
+              <span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-700 dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                </svg>
+              </span>
+              <span :class="{ 'lg:hidden': !isSidebarOpen }">Dashboard</span>
+            </router-link>
+          </li>
+
+          <li>
+            <a class="flex items-center px-3 py-2 text-green-600 transition-colors duration-300 transform rounded-lg dark:text-green-200 hover:bg-green-100 dark:hover:bg-green-800 dark:hover:text-green-200 hover:text-green-700" href="#">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5m.75-9l3-3 2.148 2.148A12.061 12.061 0 0116.5 7.605" />
+                    </svg>
+
+                    <span class="mx-2 text-sm font-medium" :class="{ 'lg:hidden': !isSidebarOpen }">Dashboard</span>
+                </a>
+          </li>
+
           <li>
             <router-link to="/earn" class="flex items-center p-2 space-x-2" :class="{'justify-center': !isSidebarOpen}" active-class="border-r-2 ml-2 border-gray-600 dark:bg-gray-700 bg-gray-200 dark:bg-active">
               <span>
@@ -99,9 +121,19 @@
               <span :class="{ 'lg:hidden': !isSidebarOpen }">Skins</span>
             </router-link>
           </li>
+          <li>
+            <router-link to="/inventory" class="flex items-center p-2 space-x-2" :class="{'justify-center': !isSidebarOpen}" active-class="border-r-2 ml-2 border-gray-600 dark:bg-gray-700 bg-gray-200 dark:bg-active">
+              <span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-700 dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+                </svg>
+              </span>
+              <span :class="{ 'lg:hidden': !isSidebarOpen }">Inventory</span>
+            </router-link>
+          </li>
           <!-- Sidebar Links... -->
         </ul>
-        <ul class="pt-2 space-y-4 overflow-hidden" v-else>
+        <ul class="pt-2 space-y-2 overflow-hidden" v-else>
           <li>
             <router-link to="/login" class="flex items-center p-2 space-x-2" :class="{'justify-center': !isSidebarOpen}" active-class="border-r-2 ml-2 border-gray-600 dark:bg-gray-700 bg-gray-200 dark:bg-active">
               <span>
@@ -313,11 +345,11 @@
       x-transition:leave="transition transform duration-300"
       x-transition:leave-start="translate-x-0 opacity-100 ease-out"
       x-transition:leave-end="-translate-x-full opacity-0 ease-in"
-      class="fixed inset-y-0 z-10 flex flex-col flex-shrink-0 w-64 max-h-screen overflow-hidden transition-all transform bg-white dark:bg-c-d-blue dark:border-red-600 lg:z-auto lg:static lg:shadow-none"
+      class="fixed inset-y-0 z-10 flex flex-col flex-shrink-0 w-72 max-h-screen overflow-hidden transition-all transform bg-white dark:bg-c-d-blue dark:border-red-600 lg:z-auto lg:static lg:shadow-none"
       :class="{'-translate-x-full lg:translate-x-0 lg:w-0': !isChatopen}"
     >
       <!-- sidebar header -->
-      <div class="flex items-center justify-between flex-shrink-0 p-2" :class="{'lg:justify-center': !isChatopen}">
+      <div class="flex items-center justify-between flex-shrink-0" :class="{'lg:justify-center': !isChatopen}">
         <container/>
       </div>
     </aside>
@@ -345,21 +377,21 @@ export default {
 },
 data() {
     return {
-      logs:[],
-      logsRooms:[],
-      currentRoom:[],
-      user:[],
-      isChatopen:false,
+      logs: [],
+      logsRooms: [],
+      currentRoom: [],
+      user: [],
+      isChatopen: false,
       isLoggedIn: false,
       sidebarOpen: false,
       isSidebarOpen: false,
       open: true,
-      isOpen:false,
-      profile:false,
+      isOpen: false,
+      profile: false,
       name: null,
       email: null,
       avatar: null,
-      sumpoints:null,
+      sumpoints: null,
       points: null,
       hpoints: null,
       tweened: 0,

@@ -1,11 +1,11 @@
 <template>
-  <div class="flex flex-col border-t border-gray-300 dark:border-gray-700 h-auto text-gray-700 px-1 py-1 mb-1">
+  <div class="flex flex-col bg-gray-200 dark:bg-c-black text-gray-700 h-auto px-2 py-1 mx-2 mb-1 shadow rounded">
     <div class="flex">
     <div class="flex items-center justify-between">
       <img v-if="message.user.avatar" src="{{ message.user.avatar }}" class="w-7 h-7 rounded-full"/>
       <img v-else :src="'https://ui-avatars.com/api/?rounded=false&bold=true&background=adadad&color=fff&uppercase=true&name='+ message.user.name" class="w-7 h-7 rounded-full" :class="{'lg:block':isChatopen }"/>
       <div class="flex flex-col ml-2">
-      <span class="font-semibold text-red-700" v-if="message.user && message.user.is_admin == 1" style="font-size:12px;">{{ message.user.name }}</span>
+      <span class="font-semibold" v-if="message.user" :class="{'text-red-600': message.user && message.user.is_admin == 1, 'text-white': message.user && message.user.is_admin == 0}" style="font-size:12px;">{{message.user.name}}</span>
       <span class="font-semibold" v-else style="font-size:12px;">{{ message.user ? message.user.name : 'Unknown' }}</span>
       <span class="text-gray-700 dark:text-white" style="font-size: 10px;">{{ format_date(message.created_at) }}</span>
       </div>
@@ -39,7 +39,7 @@ export default {
  methods: { 
       format_date(value){
          if (value) {
-           return moment(String(value)).format('h:mm a')
+           return moment(String(value)).format('hh:mm a')
           }
       },
   },      

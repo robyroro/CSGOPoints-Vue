@@ -1,6 +1,6 @@
 <template>
   <div class="h-screen">
-  <div class="flex flex-col-reverse" style="height: calc(100% - 120px); overflow-y:auto;">
+  <div class="flex flex-col-reverse dark:bg-c-d-blue" style="height: calc(100% - 110px); overflow-y:auto;">
   <div v-for="(message, index) in messages" :key="index">
     <messageItem :message="message"/>
   </div>

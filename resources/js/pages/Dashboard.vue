@@ -280,8 +280,7 @@ export default {
             this.ov_offers = response.data.ov_offers
             this.logs = response.data.logs
             this.orders = response.data.orders  
-            console.log(this.data);
-
+            
             this.labels = this.data.map(earning => earning.date) //[...this.subDates.reverse(),this.date]
             this.options.xaxis.categories.push(...this.labels)
 

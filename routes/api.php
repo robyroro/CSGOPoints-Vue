@@ -9,6 +9,8 @@ use App\Http\Controllers\API\DataController;
 use App\Http\Controllers\API\ApiController;
 use App\Http\Controllers\API\AdminController;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\RewardController;
+
 
 
 
@@ -54,6 +56,17 @@ Route::post('/postback/wall/{hash}',[PostbackController::class,'getrequest']);
 
 
 Route::get('/logs/rooms',[DataController::class,'rooms'])->middleware('auth:sanctum');
+
+
+//Reward Routes 
+Route::group(['prefix' => 'get','middleware' => 'auth:sanctum'], function() {
+  Route::get('inventory/data', [RewardController::class,'getitems']);
+  Route::post('withdraw', [RewardController::class,'withdraw']);
+  Route::post('swap_item', [RewardController::class,'swap']);
+  Route::get('winners', [RewardController::class,'getwinners']);
+});
+
+
 
 
 //Api Routes 

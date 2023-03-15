@@ -1,5 +1,5 @@
 <template>
-  <div class="fixed bottom-1 mr-1 mt-1">
+  <div class="fixed bottom-1 mr-1 mt-1 p-2">
     <div class="flex w-12/12 h-8">
      <input type="text" v-model="message" @keyup.enter="sendMessage()" class="w-full mr-1 text-base font-normal text-gray-700 bg-white border-gray-300 rounded focus:text-gray-700 focus:outline-none" placeholder="Message"/>
      <button @click="sendMessage()" class="bg-green-400 dark:bg-green-600 text-gray-700 dark:text-white text-sm px-3 py- rounded">
