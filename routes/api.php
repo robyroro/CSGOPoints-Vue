@@ -63,6 +63,7 @@ Route::group(['prefix' => 'get','middleware' => 'auth:sanctum'], function() {
   Route::get('inventory/data', [RewardController::class,'getitems']);
   Route::post('withdraw', [RewardController::class,'withdraw']);
   Route::post('swap_item', [RewardController::class,'swap']);
+  Route::post('swap_buy', [RewardController::class,'swap_buy']);
   Route::get('winners', [RewardController::class,'getwinners']);
 });
 

@@ -50,9 +50,9 @@
       <nav class="flex-1 overflow-hidden hover:overflow-y-auto">
         <ul class="pt-2 space-y-2 overflow-hidden" v-if="isLoggedIn">
           <li>
-            <router-link v-if="user.is_admin === 1" to="/admin/dashboard" target="_blank" class="flex items-center p-2 space-x-2" :class="{'justify-center': !isSidebarOpen}" active-class="border-r-2 ml-2 border-gray-600 dark:bg-gray-700 bg-gray-200 dark:bg-active">
+            <router-link v-if="user.is_admin === 1" to="/admin/dashboard" target="_blank" class="flex items-center p-2 space-x-2 text-sm mx-2 dark:text-white bg-white dark:bg-red-400 rounded" :class="{'justify-center': !isSidebarOpen}" active-class="border-r-2 ml-2 border-gray-600 dark:bg-gray-700 bg-gray-200 dark:bg-active">
               <span>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5 text-red-700 dark:text-red-500">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-4 w-4 text-red-500 dark:text-red-700">
                   <path fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z" clip-rule="evenodd" />
                 </svg>
               </span>
@@ -71,9 +71,9 @@
           </li>
 
           <li>
-            <router-link to="/dashboard" class="flex items-center p-2 space-x-2" :class="{'justify-center': !isSidebarOpen}" active-class="border-r-2 ml-2 border-green-600 dark:border-green-700 dark:bg-green-400 bg-green-200 text-gray-700 dark:text-white rounded-l">
+            <router-link to="/dashboard" class="flex items-center p-2 space-x-2 text-sm" :class="{'justify-center': !isSidebarOpen}" active-class="border-r-2 ml-2 border-green-600 dark:border-green-700 dark:bg-green-400 bg-green-200 text-gray-700 dark:text-white rounded-l">
               <span>
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-700 dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-700 dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                 </svg>
               </span>
@@ -82,19 +82,9 @@
           </li>
 
           <li>
-            <a class="flex items-center px-3 py-2 text-green-600 transition-colors duration-300 transform rounded-lg dark:text-green-200 hover:bg-green-100 dark:hover:bg-green-800 dark:hover:text-green-200 hover:text-green-700" href="#">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5m.75-9l3-3 2.148 2.148A12.061 12.061 0 0116.5 7.605" />
-                    </svg>
-
-                    <span class="mx-2 text-sm font-medium" :class="{ 'lg:hidden': !isSidebarOpen }">Dashboard</span>
-                </a>
-          </li>
-
-          <li>
-            <router-link to="/earn" class="flex items-center p-2 space-x-2" :class="{'justify-center': !isSidebarOpen}" active-class="border-r-2 ml-2 border-gray-600 dark:bg-gray-700 bg-gray-200 dark:bg-active">
+            <router-link to="/earn" class="flex items-center p-2 space-x-2 text-sm" :class="{'justify-center': !isSidebarOpen}" active-class="border-r-2 ml-2 border-gray-600 dark:bg-gray-700 bg-gray-200 dark:bg-active">
               <span>
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-700 dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-700 dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </span>
@@ -102,9 +92,9 @@
             </router-link>
           </li>
           <li>
-            <router-link to="/giftcards" class="flex items-center p-2 space-x-2" :class="{'justify-center': !isSidebarOpen}" active-class="border-r-2 ml-2 border-gray-600 dark:bg-gray-700 bg-gray-200 dark:bg-active">
+            <router-link to="/giftcards" class="flex items-center p-2 space-x-2 text-sm" :class="{'justify-center': !isSidebarOpen}" active-class="border-r-2 ml-2 border-gray-600 dark:bg-gray-700 bg-gray-200 dark:bg-active">
               <span>
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-700 dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-700 dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
                 </svg>
               </span>
@@ -112,9 +102,9 @@
             </router-link>
           </li>
           <li>
-            <router-link to="/skins" class="flex items-center p-2 space-x-2" :class="{'justify-center': !isSidebarOpen}" active-class="border-r-2 ml-2 border-gray-600 dark:bg-gray-700 bg-gray-200 dark:bg-active">
+            <router-link to="/skins" class="flex items-center p-2 space-x-2 text-sm" :class="{'justify-center': !isSidebarOpen}" active-class="border-r-2 ml-2 border-gray-600 dark:bg-gray-700 bg-gray-200 dark:bg-active">
               <span>
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-700 dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-700 dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" />
                 </svg>
               </span>
@@ -122,9 +112,9 @@
             </router-link>
           </li>
           <li>
-            <router-link to="/inventory" class="flex items-center p-2 space-x-2" :class="{'justify-center': !isSidebarOpen}" active-class="border-r-2 ml-2 border-gray-600 dark:bg-gray-700 bg-gray-200 dark:bg-active">
+            <router-link to="/inventory" class="flex items-center p-2 space-x-2 text-sm" :class="{'justify-center': !isSidebarOpen}" active-class="border-r-2 ml-2 border-gray-600 dark:bg-gray-700 bg-gray-200 dark:bg-active">
               <span>
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-700 dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-700 dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
                 </svg>
               </span>
@@ -135,9 +125,9 @@
         </ul>
         <ul class="pt-2 space-y-2 overflow-hidden" v-else>
           <li>
-            <router-link to="/login" class="flex items-center p-2 space-x-2" :class="{'justify-center': !isSidebarOpen}" active-class="border-r-2 ml-2 border-gray-600 dark:bg-gray-700 bg-gray-200 dark:bg-active">
+            <router-link to="/login" class="flex items-center p-2 space-x-2 text-sm" :class="{'justify-center': !isSidebarOpen}" active-class="border-r-2 ml-2 border-gray-600 dark:bg-gray-700 bg-gray-200 dark:bg-active">
               <span>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5 text-gray-700 dark:text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4 text-gray-700 dark:text-white">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" />
                 </svg>
               </span>
@@ -145,9 +135,9 @@
             </router-link>
           </li>
           <li>
-            <router-link to="/register" class="flex items-center p-2 space-x-2" :class="{'justify-center': !isSidebarOpen}" active-class="border-r-2 ml-2 border-gray-600 dark:border-gray-700 bg-gray-200 dark:bg-active">
+            <router-link to="/register" class="flex items-center p-2 space-x-2 text-sm" :class="{'justify-center': !isSidebarOpen}" active-class="border-r-2 ml-2 border-gray-600 dark:border-gray-700 bg-gray-200 dark:bg-active">
               <span>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5 text-gray-700 dark:text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4 text-gray-700 dark:text-white">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M19 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zM4 19.235v-.11a6.375 6.375 0 0112.75 0v.109A12.318 12.318 0 0110.374 21c-2.331 0-4.512-.645-6.374-1.766z" />
                 </svg>
               </span>

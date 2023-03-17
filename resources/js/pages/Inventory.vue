@@ -37,7 +37,7 @@
      <img :src="item.image" class="w-16 h-auto mb-1 rounded mx-auto"/>
      <span class="text-sm font-semibold">{{item.name}}</span>
      <div class="flex items-center justify-center mt-auto">
-       <button @click="withdraw(item.item_id, item.price)" class="bg-green-500 dark:bg-green-700 text-sm rounded px-2 mt-2">Withdraw</button>
+       <button @click="withdraw(item.item_id, item.price)" class="bg-green-500 dark:bg-green-700 text-sm rounded px-2 mt-2 focus:outline-none">Withdraw</button>
      </div>
    </div>
   
@@ -115,11 +115,22 @@
                 </svg>
               </button>
           </div>
-        <div class="mt-2 bg-gray-200 dark:bg-c-black p-3">
-          <div v-for="item in swapitems" class="bg-white dark:bg-c-d-blue px-2 py-2 rounded">
-           <span>{{ item.name }}</span>
+        <div class="mt-2 bg-gray-200 dark:bg-c-black p-3 h-3/5 overflow-x-auto">
+          <div v-if="swapitems" v-for="item in swapitems" class="bg-white dark:bg-c-d-blue px-2 py-2 mb-1 rounded">
+            <div class="sm:flex sm:items-center sm:justify-between sm:space-x-5">
+              <div class="flex items-center flex-1 min-w-0">
+                <img :src="item.image" class="w-10 h-auto rounded"/>
+                <div class="mt-0 mr-0 mb-0 ml-4 flex-1 min-w-0">
+                  <p class="text-md font-bold text-gray-700 dark:text-white truncate">{{item.name}}</p>
+                  <p class="text-gray-800 text-sm">{{item.price}}</p>
+                </div>
+              </div>
+              <div class="mt-4 mr-0 mb-0 ml-0 pt-0 pr-0 pb-0 pl-14 flex items-center sm:space-x-6 sm:pl-0 sm:mt-0">
+                <button @click="swapitem(item.item_id)" class="bg-gray-800 pt-2 pr-6 pb-2 pl-6 text-md font-medium text-gray-100 transition-all duration-200 hover:bg-gray-700 rounded">Swap</button>
+              </div>
+            </div>
           </div>
-          
+
        </div>
       </div>
      </div>
@@ -129,7 +140,6 @@
 </template>
 
 <script>
-import { tSExpressionWithTypeArguments } from '@babel/types';
 import axios from 'axios';
 import { ref, computed, watch } from 'vue';
 
@@ -146,6 +156,7 @@ export default {
     const steps = ref(['Step 1', 'Step 2', 'Step 3']);
     const currentStep = ref(1); 
     const showModal = ref(false);
+    const old_id = ref(0);
     const loading = ref(true);
 
     axios.get('/api/get/inventory/data')
@@ -226,13 +237,11 @@ export default {
       steps,
       currentStep,
       showModal,
+      old_id,
       loading
     };
   },
   methods:{
-    modal(){
-      this.showModal = true;
-    },
     withdraw(id,price){
       axios.post('/api/get/withdraw',{
         item_id:id,
@@ -261,11 +270,35 @@ export default {
         price:price
       })
       .then(res => {
-        swapitems.value = res.data;
+        this.swapitems = res.data.items;
+        this.old_id = id;
       })
       .catch(error => {
         console.log(error);
       })
+    },
+    swapitem(id){
+     axios.post('/api/get/swap_buy',{
+      item_id:id,
+      old_id:this.old_id
+     })
+     .then(res => {
+      if(res.data.ok === 'ok')
+      {
+        this.$toast.success(`Item has been successfully Swapped. Check your Steam Trade Offers.`,{
+        position: "bottom-right",
+        duration: 5000
+       });
+      }else{
+        this.$toast.error(`Item not available at this time.`,{
+        position: "bottom-right",
+        duration: 5000
+       });
+      }
+     })
+     .catch(error => {
+      console.log(error);
+     })
     }
   }
 };
