@@ -19,6 +19,8 @@
     background-color:#17121f;
     background-color:#1f1b25;
     background-color: #191520;
+
+    background-color: #212139;
   }
   .bg-gray-200 {
     --tw-bg-opacity: 1;
@@ -30,8 +32,11 @@
     background-color:#1539ae;
   }
 
-  .dark .dark\:bg-active {
-    background-color: #212139; 
+  .dark .dark\:bg-act {
+    background-color: #1e333c;
+  }
+  .dark .dark\:text-act {
+    color: #01d676;
   }
   
   ::-webkit-scrollbar-track

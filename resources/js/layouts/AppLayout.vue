@@ -60,18 +60,17 @@
             </router-link>
           </li>
           <li>
-            <router-link to="/dashboard" class="flex items-center p-2 space-x-2" :class="{'justify-center': !isSidebarOpen}" active-class="mx-2 dark:bg-green-400 bg-green-200 text-green-600 dark:text-green-700 rounded">
+            <router-link to="/dashboard" class="flex items-center p-2 space-x-2 text-sm" :class="{'justify-center': !isSidebarOpen}" active-class="mx-2 dark:bg-act bg-green-200 text-green-500 dark:text-act rounded">
               <span>
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-700 dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-700 dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                 </svg>
               </span>
               <span :class="{ 'lg:hidden': !isSidebarOpen }">Dashboard</span>
             </router-link>
           </li>
-
           <li>
-            <router-link to="/dashboard" class="flex items-center p-2 space-x-2 text-sm" :class="{'justify-center': !isSidebarOpen}" active-class="border-r-2 ml-2 border-green-600 dark:border-green-700 dark:bg-green-400 bg-green-200 text-gray-700 dark:text-white rounded-l">
+            <router-link to="/dashboard" class="flex items-center p-2 space-x-2 text-sm" :class="{'justify-center': !isSidebarOpen}" active-class="border-r-2 ml-2 border-green-600 dark:border-green-700 dark:bg-act bg-green-200 text-green-500 dark:text-act rounded-l">
               <span>
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-700 dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
